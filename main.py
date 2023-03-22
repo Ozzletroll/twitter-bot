@@ -12,7 +12,7 @@ class InternetSpeedTwitterBot:
 
     def __init__(self):
         self.EMAIL = os.environ["EMAIL"]
-        self.PASSWORD = "ElonMuskHasAFragileEgo"
+        self.PASSWORD = os.environ["PASSWORD"]
         self.USERNAME = "eelonn_musque"
 
         # Selenium driver setup
