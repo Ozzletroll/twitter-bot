@@ -20,6 +20,27 @@ class InternetSpeedTwitterBot:
         self.options.add_experimental_option("detach", True)
         self.driver = webdriver.Chrome(service=self.service, options=self.options)
 
+    def speed_test(self):
+        self.driver.get("https://www.speedtest.net/")
+        time.sleep(3)
+        popup = self.driver.find_element(By.ID, "onetrust-accept-btn-handler")
+        popup.click()
+        time.sleep(1)
+        go = self.driver.find_element(By.XPATH, "//*[@id='container']/div/div[3]/div/div/div/div[2]/div[3]/div["
+                                                "1]/a/span[4]")
+        go.click()
+        time.sleep(60)
+        popup_2 = self.driver.find_element(By.CSS_SELECTOR, "#container > div > div.main-content > div > div > div > "
+                                                            "div.pure-u-custom-speedtest > "
+                                                            "div.speedtest-container.main-row > div.main-view > div > "
+                                                            "div.desktop-app-prompt-modal > div > a")
+        popup_2.click()
+        download_speed = self.driver.find_element(By.CLASS_NAME, "download-speed")
+        upload_speed = self.driver.find_element(By.CLASS_NAME, "upload-speed")
+        return download_speed, upload_speed
+
+
+
     def twitter_login(self):
         self.driver.get("https://twitter.com/home")
         time.sleep(3)
@@ -53,7 +74,7 @@ class InternetSpeedTwitterBot:
         password.send_keys(Keys.ENTER)
         time.sleep(4)
 
-    def tweet(self):
+    def tweet(self, download, upload):
         input_field = self.driver.find_element(By.CLASS_NAME, "public-DraftStyleDefault-block")
         input_field.click()
         input_field.send_keys(
@@ -65,5 +86,6 @@ class InternetSpeedTwitterBot:
 
 
 twitter_bot = InternetSpeedTwitterBot()
-twitter_bot.twitter_login()
-twitter_bot.tweet()
+twitter_bot.speed_test()
+# twitter_bot.twitter_login()
+# twitter_bot.tweet()
