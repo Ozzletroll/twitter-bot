@@ -76,7 +76,7 @@ class InternetSpeedTwitterBot:
         input_field = self.driver.find_element(By.CLASS_NAME, "public-DraftStyleDefault-block")
         input_field.click()
         input_field.send_keys(f"Twitter is stupid. My download speed is: {speed_list[0]} Mbps,"
-                              f" and my upload speed is {speed_list[1]} Mbp. ")
+                              f" and my upload speed is {speed_list[1]} Mbps. ")
         # input_field.send_keys(Keys.ENTER)
 
 
