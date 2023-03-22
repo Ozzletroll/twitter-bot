@@ -1,6 +1,7 @@
 import os
 import time
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.by import By
@@ -50,27 +51,32 @@ class InternetSpeedTwitterBot:
         sign_in.send_keys(Keys.ENTER)
         time.sleep(3)
 
-        # password = driver.find_element(By.XPATH, "//*[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div[2]/div["
-        #                                          "2]/div[1]/div/div/div[3]/div/label/div/div[1]")
-        # password.click()
-        # password.send_keys(PASSWORD)
-        # password.send_keys(Keys.ENTER)
+        try:
+            password = self.driver.find_element(By.XPATH,
+                                                "//*[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div["
+                                                "2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[1]")
+            password.click()
+            password.send_keys(self.PASSWORD)
+            password.send_keys(Keys.ENTER)
+        except NoSuchElementException:
+            username_input = self.driver.find_element(By.XPATH, "//*[@id='layers']/div/div/div/div/div/div/div[2]/div["
+                                                                "2]/div/div/div[2]/div[2]/div[1]/div/div["
+                                                                "2]/label/div/div[2]/div/input")
+            username_input.click()
+            username_input.send_keys(self.USERNAME)
+            username_input.send_keys(Keys.ENTER)
+            time.sleep(3)
 
-        username_input = self.driver.find_element(By.XPATH, "//*[@id='layers']/div/div/div/div/div/div/div[2]/div["
-                                                            "2]/div/div/div[2]/div[2]/div[1]/div/div[2]/label/div/div["
-                                                            "2]/div/input")
-        username_input.click()
-        username_input.send_keys(self.USERNAME)
-        username_input.send_keys(Keys.ENTER)
-        time.sleep(3)
-
-        password = self.driver.find_element(By.XPATH,
-                                            "//*[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div["
-                                            "2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input")
-        password.click()
-        password.send_keys(self.PASSWORD)
-        password.send_keys(Keys.ENTER)
-        time.sleep(4)
+            password = self.driver.find_element(By.XPATH,
+                                                "//*[@id='layers']/div/div/div/div/div/div/div[2]/div[2]/div/div/div["
+                                                "2]/div[2]/div[1]/div/div/div[3]/div/label/div/div[2]/div[1]/input")
+            password.click()
+            password.send_keys(self.PASSWORD)
+            password.send_keys(Keys.ENTER)
+            time.sleep(4)
+        else:
+            # Normal login process here
+            pass
 
     def tweet(self, speed_list):
         input_field = self.driver.find_element(By.CLASS_NAME, "public-DraftStyleDefault-block")
