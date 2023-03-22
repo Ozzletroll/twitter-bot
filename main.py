@@ -37,9 +37,7 @@ class InternetSpeedTwitterBot:
         popup_2.click()
         download_speed = self.driver.find_element(By.CLASS_NAME, "download-speed")
         upload_speed = self.driver.find_element(By.CLASS_NAME, "upload-speed")
-        return download_speed, upload_speed
-
-
+        return download_speed.text, upload_speed.text
 
     def twitter_login(self):
         self.driver.get("https://twitter.com/home")
@@ -74,18 +72,15 @@ class InternetSpeedTwitterBot:
         password.send_keys(Keys.ENTER)
         time.sleep(4)
 
-    def tweet(self, download, upload):
+    def tweet(self, speed_list):
         input_field = self.driver.find_element(By.CLASS_NAME, "public-DraftStyleDefault-block")
         input_field.click()
-        input_field.send_keys(
-            "Crom, I have never prayed to you before. I have no tongue for it. No one, not even you, "
-            "will remember if we were good men or bad. Why we fought, or why we died. All that matters "
-            "is that two stood against many. That's what's important! Valor pleases you, Crom... so "
-            "grant me one request. Grant me revenge! And if you do not listen, then to HELL with you!")
+        input_field.send_keys(f"Twitter is stupid. My download speed is: {speed_list[0]} Mbps,"
+                              f" and my upload speed is {speed_list[1]} Mbp. ")
         # input_field.send_keys(Keys.ENTER)
 
 
 twitter_bot = InternetSpeedTwitterBot()
-twitter_bot.speed_test()
-# twitter_bot.twitter_login()
-# twitter_bot.tweet()
+speeds = twitter_bot.speed_test()
+twitter_bot.twitter_login()
+twitter_bot.tweet(speeds)
